@@ -31,6 +31,7 @@ console.log(luxon.DateTime.now().setZone("system").toFormat("HH:mm dd/LL/yyyy"))
 // I'm not sure if using Markdown will be a good idea in the long rung
 // It'd be nice if comments could be formatted, but adding an entire Markdown parser to the script
 // makes it a tiny bit bloated + there are features that we'd like to disable (masked links, for example)
+//                                  ^ there are ways to disable certain features, see line 55
 // For now, here's a snippet that shows how to use the marked library to parse Markdown, but it might get removed
 // in the future - Mester
 // P.S. even if we drop Markdown for comments, we might want to use them for pack descriptions
@@ -50,7 +51,9 @@ console.log("Hello, world!");
 
 Masked link: [click me](https://google.com)
 `;
-
+const renderer = new marked.Renderer();
+renderer.link = (href: string) => `<a href="${href}">${href}</a>`; // disable masked links
+marked.use({ renderer });
 const markdownOutput = DOMPurify.sanitize(marked.parse(markdownInput, { async: false }) as string);
 document.body.appendChild(document.createElement("div")).innerHTML = markdownOutput;
 
