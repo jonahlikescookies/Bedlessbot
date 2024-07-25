@@ -226,7 +226,7 @@ async function replyToConversation(message: Message<true>) {
         convo.assistant = { content: reply, role: "assistant" };
     }
 
-    message.reply({ content: reply, allowedMentions: { users: [] } });
+    message.reply({ content: reply, allowedMentions: { parse: [] } });
 }
 
 async function generateSummary(message: Message<true>) {
